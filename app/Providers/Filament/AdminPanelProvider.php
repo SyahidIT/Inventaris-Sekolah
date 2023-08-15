@@ -17,12 +17,14 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use CmsMulti\FilamentClearCache\FilamentClearCachePlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
+            ->sidebarCollapsibleOnDesktop()    
             ->default()
             ->id('admin')
             ->path('admin')
@@ -50,8 +52,13 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
+            ->plugins([
+                FilamentClearCachePlugin::make(),
+                ])
+                
             ->authMiddleware([
                 Authenticate::class,
+                
             ]);
     }
 }
