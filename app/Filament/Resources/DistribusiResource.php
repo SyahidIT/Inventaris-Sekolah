@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\DistribusiResource\Pages;
 use App\Filament\Resources\DistribusiResource\RelationManagers;
 use App\Models\Distribusi;
+use App\Models\FormPembelian;
 use App\Models\Gudang;
 use App\Models\Ruangan;
 use Carbon\Carbon;
@@ -24,9 +25,11 @@ use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Filament\Tables\Contracts\HasTable;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Actions\Action;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class DistribusiResource extends Resource
@@ -144,9 +147,30 @@ class DistribusiResource extends Resource
                         return 'Tersedia: ' . $sum;
                     }),
 
+                Select::make('Valuasi')
+                    ->options(function (callable $get) {
+                        $kodeBarang = $get('KodeBarang');
+                        $jumlah = $get('Jumlah');
+                        if (!$kodeBarang || !$jumlah) {
+                            return [];
+                        }
+                
+                        $formPembelian = FormPembelian::where('KodeBarang', $kodeBarang)->first();
+                        if (!$formPembelian) {
+                            return [];
+                        }
+                
+                        $valuasiBarang = $jumlah * $formPembelian->HargaPerUnit; 
+                        return [$valuasiBarang => $valuasiBarang];
+                    })
+                    ->required()
+                    ->reactive()
+                    ->prefix('Rp.'),
+
                 TextInput::make('Stok')
                     ->numeric()
                     ->required()
+                    ->lte('Jumlah')
                     ->placeholder(function (callable $get) {
                         $kodeBarang = $get('KodeBarang');
                         if (!$kodeBarang) {
@@ -173,10 +197,6 @@ class DistribusiResource extends Resource
                         'Dana Sekolah' => 'Dana Sekolah',
                     ])
                     ->searchable()
-                    ->required(),
-
-                TextInput::make('Valuasi')->prefix('Rp.')->default('0')
-                    ->numeric()
                     ->required(),
             ]);
     }
@@ -212,9 +232,21 @@ class DistribusiResource extends Resource
                 TextColumn::make('Jumlah')->sortable()->searchable(),
                 TextColumn::make('KondisiBarang')->sortable()->searchable(),
                 TextColumn::make('SumberDana')->sortable()->searchable(),
-                TextColumn::make('Valuasi')->sortable()->searchable(),
-            ])
-            ->filters([
+                TextColumn::make('Valuasi') 
+                    ->numeric(
+                        decimalPlaces: 0,
+                        decimalSeparator: '.',
+                        thousandsSeparator: '.',
+                        )
+                    ->sortable()->searchable()->prefix('Rp.'),
+                    ])
+            
+                ->filters([
+                SelectFilter::make('SumberDana')
+                        ->options([
+                            'Dana Bos' => 'Dana Bos',
+                            'Dana Sekolah' => 'Dana Sekolah',
+                        ]),
                 Filter::make('created_at')
                         ->form([
                                 DatePicker::make('Dari')->label('Dari tanggal')->placeholder('Pilih tanggal'),
@@ -245,6 +277,12 @@ class DistribusiResource extends Resource
                                 );
                         })
             ])
+
+            ->filtersTriggerAction(
+                fn (Action $action) => $action
+                    ->button()
+                    ->label('Filter'),
+            )
             ->actions([
                 ActionGroup::make([
                 ViewAction::make(),
