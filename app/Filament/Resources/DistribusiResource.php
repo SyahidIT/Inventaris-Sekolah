@@ -147,26 +147,6 @@ class DistribusiResource extends Resource
                         return 'Tersedia: ' . $sum;
                     }),
 
-                Select::make('Valuasi')
-                    ->options(function (callable $get) {
-                        $kodeBarang = $get('KodeBarang');
-                        $jumlah = $get('Jumlah');
-                        if (!$kodeBarang || !$jumlah) {
-                            return [];
-                        }
-                
-                        $formPembelian = FormPembelian::where('KodeBarang', $kodeBarang)->first();
-                        if (!$formPembelian) {
-                            return [];
-                        }
-                
-                        $valuasiBarang = $jumlah * $formPembelian->HargaPerUnit; 
-                        return [$valuasiBarang => $valuasiBarang];
-                    })
-                    ->required()
-                    ->reactive()
-                    ->prefix('Rp.'),
-
                 TextInput::make('Stok')
                     ->numeric()
                     ->required()
