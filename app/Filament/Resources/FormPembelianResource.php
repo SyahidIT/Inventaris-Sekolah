@@ -40,7 +40,7 @@ class FormPembelianResource extends Resource
         return $form
             ->schema([
                 TextInput::make('KodeBarang')
-                    ->placeholder('Contoh: AC0001, pastikan barang yang sama kode yang dipakai sama')
+                    ->placeholder('Contoh: AC0001SD, contoh SD disini kode untuk unit SD')
                     ->required()
                     ->minLength(5),
                 // Define the NamaBarang field

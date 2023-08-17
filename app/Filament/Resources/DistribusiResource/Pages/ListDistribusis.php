@@ -5,6 +5,8 @@ namespace App\Filament\Resources\DistribusiResource\Pages;
 use App\Filament\Resources\DistribusiResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use SebastianBergmann\Type\VoidType;
 
 class ListDistribusis extends ListRecords
 {

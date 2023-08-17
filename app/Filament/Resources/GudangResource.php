@@ -151,28 +151,6 @@ class GudangResource extends Resource
                 TextColumn::make('NamaBarang')->sortable()->searchable(),
                 TextColumn::make('Merek')->sortable()->searchable(),
                 TextColumn::make('Kategori')->sortable()->searchable(),
-                TextColumn::make('JumlahPerUnit')
-                ->description('test'),
-                    // ->description(function ($record) {
-                    //     $totalSD = DataBarangSd::all()->where('KodeBarang', $record->KodeBarang)->sum('Jumlah');
-                    //     $totalSMPFD = DataBarangSmpFd::all()->where('KodeBarang', $record->KodeBarang)->sum('Jumlah');
-                    //     $totalSMPBD = DataBarangSmpBd::all()->where('KodeBarang', $record->KodeBarang)->sum('Jumlah');
-                    //     $totalSMA = DataBarangSma::all()->where('KodeBarang', $record->KodeBarang)->sum('Jumlah');
-
-                    //     return "SD: " . $totalSD . "<br>SMP FD: " . $totalSMPFD . "<br>SMP BD: " . $totalSMPBD . "<br>SMA: " . $totalSMA;
-                    // })
-                    // ->wrap(),
-
-                TextColumn::make('JumlahTotalDiSeluruhUnit')
-                ->description('test'),
-                    // ->default(function ($record) {
-                    //     $totalSD = DataBarangSd::all()->where('KodeBarang', $record->KodeBarang)->sum('Jumlah');
-                    //     $totalSMPFD = DataBarangSmpFd::all()->where('KodeBarang', $record->KodeBarang)->sum('Jumlah');
-                    //     $totalSMPBD = DataBarangSmpBd::all()->where('KodeBarang', $record->KodeBarang)->sum('Jumlah');
-                    //     $totalSMA = DataBarangSma::all()->where('KodeBarang', $record->KodeBarang)->sum('Jumlah');
-
-                    //     return $totalSD + $totalSMPFD + $totalSMPBD + $totalSMA;
-                    // }),
                 TextColumn::make('Jumlah')
                     ->label('Jumlah Total'),
                 TextColumn::make('Stok'),

@@ -16,4 +16,16 @@ class ListFormPembelians extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
+
+    public function getTabs(): array
+    {
+        return [
+            null => ListRecords\Tab::make('Semua'),
+            'Electronik' => ListRecords\Tab::make()->query(fn ($query) => $query->where('Kategori', 'Electronik')),
+            'Furniture' => ListRecords\Tab::make()->query(fn ($query) => $query->where('Kategori', 'Furniture')),
+            'Pecah Belah' => ListRecords\Tab::make()->query(fn ($query) => $query->where('Kategori', 'Pecah Belah')),
+            'Olahraga' => ListRecords\Tab::make()->query(fn ($query) => $query->where('Kategori', 'Olahraga')),
+            'Lainnya' => ListRecords\Tab::make()->query(fn ($query) => $query->where('Kategori', 'Lainnya')),
+        ];
+    }
 }

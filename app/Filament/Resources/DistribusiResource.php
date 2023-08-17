@@ -46,6 +46,7 @@ class DistribusiResource extends Resource
             ->schema([
                 Select::make('KodeBarang')
                     ->options(Gudang::all()->pluck('KodeBarang', 'KodeBarang')->toArray())
+                    ->unique()
                     ->searchable()
                     ->required()
                     ->reactive()
@@ -197,8 +198,8 @@ class DistribusiResource extends Resource
                 ),
                 BadgeColumn::make('Unit')
                 ->colors([
-                    'danger' => fn ($state) => in_array($state, ['Unit', 'SD']),
-                    'danger' => fn ($state) => in_array($state, ['Unit', 'SMP Fullday']),
+                    'primary' => fn ($state) => in_array($state, ['Unit', 'SD']),
+                    'gray' => fn ($state) => in_array($state, ['Unit', 'SMP Fullday']),
                     'warning' => fn ($state) => in_array($state, ['Unit', 'SMP Boarding']),
                     'success' => fn ($state) => in_array($state, ['Unit', 'SMA']),
                 ]),
@@ -265,9 +266,13 @@ class DistribusiResource extends Resource
             )
             ->actions([
                 ActionGroup::make([
-                ViewAction::make(),
-                DeleteAction::make(),
-                ]),
+                    ViewAction::make(),
+                    DeleteAction::make(),
+                    Action::make('Lihat Qr Code')
+                    ->icon('heroicon-o-qr-code')
+                    ->url(fn (Distribusi $record) => static::getUrl('qr-code', ['record' => $record]))
+                    ->openUrlInNewTab()
+                ])
             ])
             ->bulkActions([
                 BulkActionGroup::make([
@@ -291,6 +296,7 @@ class DistribusiResource extends Resource
         return [
             'index' => Pages\ListDistribusis::route('/'),
             'create' => Pages\CreateDistribusi::route('/create'),
+            'qr-code' => Pages\LihatQrCode::route('/{record}/qr-code'),
         ];
     }    
 }
