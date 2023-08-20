@@ -5,6 +5,7 @@ namespace App\Filament\Resources\RuanganResource\Pages;
 use App\Filament\Resources\RuanganResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Support\Facades\Cache;
 
 class ListRuangans extends ListRecords
 {

@@ -20,6 +20,7 @@ use Filament\Tables\Table;
 use Filament\Tables\Contracts\HasTable;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Actions\Action;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PeminjamanBarangResource extends Resource
@@ -35,7 +36,6 @@ class PeminjamanBarangResource extends Resource
         return $form
             ->schema([
                 TextInput::make('NamaPeminjam'),
-                TextInput::make('StatusPeminjaman'),
                 TextInput::make('KodeBarang'),
                 TextInput::make('NamaBarang'),
                 TextInput::make('Merek'),
@@ -57,19 +57,32 @@ class PeminjamanBarangResource extends Resource
             ->columns([
                 TextColumn::make('No')->state(
                     static function (HasTable $livewire, $rowLoop): string {
-                        return (string) (
-                            $rowLoop->iteration +
-                            ($livewire->getTableRecordsPerPage() * (
-                                $livewire->getTablePage() - 1
-                            ))
-                        );
+                        $cacheKey = 'row_number_' . $livewire->getTablePage() . '_' . $rowLoop->iteration;
+                
+                        return Cache::remember($cacheKey, now()->addMinutes(60*60*24), function () use ($livewire, $rowLoop) {
+                            return (string) (
+                                $rowLoop->iteration +
+                                ($livewire->getTableRecordsPerPage() * (
+                                    $livewire->getTablePage() - 1
+                                ))
+                            );
+                        });
                     }
                 ),
                 TextColumn::make('NamaPeminjam')->sortable()->searchable(),
-                TextColumn::make('StatusPeminjaman'),
+                TextColumn::make('StatusPeminjaman')
+                ->default(function ($record) {
+                    $status = $record->Status;
+
+                    if ($status == 1) {
+                        return 'Sedang Dipinjam';
+                    } elseif ($status == 0) {
+                        return 'Sudah Dipulangkan';
+                    }
+                }),
                 BadgeColumn::make('Unit')
                 ->colors([
-                    'danger' => fn ($state) => in_array($state, ['Unit', 'SD']),
+                    'gray' => fn ($state) => in_array($state, ['Unit', 'SD']),
                     'danger' => fn ($state) => in_array($state, ['Unit', 'SMP Fullday']),
                     'warning' => fn ($state) => in_array($state, ['Unit', 'SMP Boarding']),
                     'success' => fn ($state) => in_array($state, ['Unit', 'SMA']),

@@ -5,6 +5,7 @@ namespace App\Filament\Resources\PeminjamanBarangResource\Pages;
 use App\Filament\Resources\PeminjamanBarangResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Support\Facades\Cache;
 
 class ListPeminjamanBarangs extends ListRecords
 {

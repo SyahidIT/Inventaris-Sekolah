@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateFormPembelian extends CreateRecord
 {
     protected static string $resource = FormPembelianResource::class;
+
+    protected function getRedirectUrl(): string
+{
+    return $this->getResource()::getUrl('index');
+}
 }

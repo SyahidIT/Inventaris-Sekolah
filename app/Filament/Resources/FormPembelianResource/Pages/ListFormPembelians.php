@@ -5,6 +5,7 @@ namespace App\Filament\Resources\FormPembelianResource\Pages;
 use App\Filament\Resources\FormPembelianResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Support\Facades\Cache;
 
 class ListFormPembelians extends ListRecords
 {

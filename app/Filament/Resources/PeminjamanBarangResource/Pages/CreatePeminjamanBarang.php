@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreatePeminjamanBarang extends CreateRecord
 {
     protected static string $resource = PeminjamanBarangResource::class;
+
+    protected function getRedirectUrl(): string
+{
+    return $this->getResource()::getUrl('index');
+}
 }

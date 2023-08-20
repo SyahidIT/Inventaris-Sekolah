@@ -22,8 +22,6 @@ class Gudang extends Model
     }
 }
 
-
-
 Gudang::chunk(200, function ($gudangs) {
     foreach ($gudangs as $gudang) {
         $formpembelians = $gudang->formpembelians;

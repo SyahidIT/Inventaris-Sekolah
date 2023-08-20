@@ -2,14 +2,12 @@
 
 namespace App\Models;
 
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Media extends Model implements HasMedia
+class Media extends Model
 {
-    use InteractsWithMedia;
     use HasFactory;
     protected $guarded = [];
 }
+

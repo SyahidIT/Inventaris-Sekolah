@@ -26,6 +26,7 @@ use Filament\Tables\Table;
 use Filament\Tables\Contracts\HasTable;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Actions\Action;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class FormPembelianResource extends Resource
@@ -80,16 +81,32 @@ class FormPembelianResource extends Resource
     {
         return $table
             ->columns([
+
                 TextColumn::make('No')->state(
                     static function (HasTable $livewire, $rowLoop): string {
-                        return (string) (
-                            $rowLoop->iteration +
-                            ($livewire->getTableRecordsPerPage() * (
-                                $livewire->getTablePage() - 1
-                            ))
-                        );
+                        $cacheKey = 'row_number_' . $livewire->getTablePage() . '_' . $rowLoop->iteration;
+                
+                        return Cache::remember($cacheKey, now()->addMinutes(60*60*24), function () use ($livewire, $rowLoop) {
+                            return (string) (
+                                $rowLoop->iteration +
+                                ($livewire->getTableRecordsPerPage() * (
+                                    $livewire->getTablePage() - 1
+                                ))
+                            );
+                        });
                     }
                 ),
+                //Bentuk asli
+                // TextColumn::make('No')->state(
+                //     static function (HasTable $livewire, $rowLoop): string {
+                //         return (string) (
+                //             $rowLoop->iteration +
+                //             ($livewire->getTableRecordsPerPage() * (
+                //                 $livewire->getTablePage() - 1
+                //             ))
+                //         );
+                //     }
+                // ),
                 TextColumn::make('KodeBarang')->sortable()->searchable(),
                 TextColumn::make('NamaBarang')->sortable()->searchable(),
                 TextColumn::make('Merek')->sortable()->searchable(),
@@ -101,11 +118,22 @@ class FormPembelianResource extends Resource
                     decimalSeparator: '.',
                     thousandsSeparator: '.',
                 ),
-                TextColumn::make('Valuasi')->sortable()->searchable()
-                ->default(function ($record) {
-                    $valuasi = $record->Jumlah * $record->HargaPerUnit;
-                    return 'Rp.' . number_format($valuasi, 0, ',', '.');
-                }),
+                TextColumn::make('Valuasi')
+                    ->sortable()
+                    ->searchable()
+                    ->default(function ($record) {
+                        return Cache::remember('valuasi_formpembelian' . $record->id, now()->addMinutes(60*60*24), function () use ($record) {
+                            $valuasi = $record->Jumlah * $record->HargaPerUnit;
+                            return 'Rp.' . number_format($valuasi, 0, ',', '.');
+                        });
+                    }),
+
+                //Bentuk aslinya
+                // TextColumn::make('Valuasi')->sortable()->searchable()
+                // ->default(function ($record) {
+                //     $valuasi = $record->Jumlah * $record->HargaPerUnit;
+                //     return 'Rp.' . number_format($valuasi, 0, ',', '.');
+                // }),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->label('Tanggal Input Data'),
