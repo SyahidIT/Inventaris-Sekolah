@@ -6,6 +6,8 @@ use App\Filament\Resources\MediaResource\Pages;
 use App\Filament\Resources\MediaResource\RelationManagers;
 use App\Models\Media;
 use Filament\Forms;
+use Filament\Infolists\Components;
+use Filament\Infolists\Infolist;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\DeleteAction;
@@ -157,6 +159,36 @@ public static function table(Table $table): Table
                 ->action(function () {
                   
                 }),
+        ]);
+}
+
+public static function infolist(Infolist $infolist): Infolist
+{
+    return $infolist
+        ->schema([
+            Components\Section::make()
+                ->schema([
+                    Components\Split::make([
+                        Components\Grid::make(2)
+                            ->schema([
+                                Components\Group::make([
+                                    Components\TextEntry::make('Judul'),
+                                    Components\TextEntry::make('slug'),
+                                ]),
+                            ]),
+                            Components\ImageEntry::make('Gambar')
+                            ->hiddenLabel()
+                            ->grow(false),
+                    ])->from('lg'),
+                ]),
+                Components\Section::make('Konten')
+                ->schema([
+                    Components\TextEntry::make('Konten')
+                        ->prose()
+                        ->markdown()
+                        ->hiddenLabel(),
+                ])
+                ->collapsible(),
         ]);
 }
    
