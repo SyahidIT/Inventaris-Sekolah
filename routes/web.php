@@ -1,5 +1,6 @@
 <?php
 
+use App\Filament\Resources\DistribusiResource\Pages\LihatQrCode;
 use App\Http\Controllers\AbsenController;
 use App\Http\Controllers\GenerateQrCodeController;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 //Route::post('/store',[AbsenController::class, 'store'])->name('store');
-Route::get('/filament/pages/generate-qr-code', [GenerateQrCodeController::class, 'index']);
-//Route::post('/filament/pages/generate-qr-code', [GenerateQrCodeController::class, 'store'])->name('store');
-Route::get('/filament/pages/qrcode/{id}', [GenerateQrCodeController::class, 'generate'])->name('generate');
+Route::controller(LihatQrCode::class)->group(function(){
+    Route::get('qrcode/download', 'download')->name('qrcode.download');
+});

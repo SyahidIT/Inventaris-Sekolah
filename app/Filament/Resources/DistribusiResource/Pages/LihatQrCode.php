@@ -15,4 +15,5 @@ class LihatQrCode extends ListRecords
 
     public Distribusi $record;
 
+
 }
