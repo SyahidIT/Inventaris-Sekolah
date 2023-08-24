@@ -25,6 +25,9 @@ use Filament\Tables\Contracts\HasTable;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Actions\Action;
 use Illuminate\Support\Facades\Cache;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
+use pxlrbt\FilamentExcel\Columns\Column;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 //custom action
@@ -217,8 +220,22 @@ class GudangResource extends Resource
             ])
             ->bulkActions([
                 BulkActionGroup::make([
-                DeleteBulkAction::make(),
-                ]),
+                    DeleteBulkAction::make(),
+                    ExportBulkAction::make()->exports([
+                        ExcelExport::make()->withColumns([
+                            Column::make('No'),
+                            Column::make('KodeBarang'),
+                            Column::make('NamaBarang'),
+                            Column::make('Merek'),
+                            Column::make('Kategori'),
+                            Column::make('Jumlah'),
+                            Column::make('Stok'),
+                            Column::make('Valuasi'),
+                            Column::make('created_at'), 
+                        ])
+                    ])
+                    
+                        ]),
             ])
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make(),

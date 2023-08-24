@@ -288,10 +288,21 @@ class DistribusiResource extends Resource
                 DeleteBulkAction::make(),
                 ExportBulkAction::make()->exports([
                     ExcelExport::make()->withColumns([
+                        Column::make('No'),
+                        Column::make('Unit'),
                         Column::make('KodeBarang'),
-                        Column::make('Kategori'),
                         Column::make('NamaBarang'),
                         Column::make('Merek'),
+                        Column::make('Kategori'),
+                        Column::make('Gedung'),
+                        Column::make('Ruangan'),
+                        Column::make('Lantai'),
+                        Column::make('Jumlah'),
+                        Column::make('Stok'),
+                        Column::make('KondisiBarang'),
+                        Column::make('SumberDana'),
+                        Column::make('Valuasi'),
+                        Column::make('created_at'), 
                     ])
                 ])
                 

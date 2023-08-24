@@ -12,6 +12,8 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
@@ -21,6 +23,9 @@ use Filament\Tables\Contracts\HasTable;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Actions\Action;
 use Illuminate\Support\Facades\Cache;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
+use pxlrbt\FilamentExcel\Columns\Column;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PeminjamanBarangResource extends Resource
@@ -136,9 +141,34 @@ class PeminjamanBarangResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                    ExportBulkAction::make()->exports([
+                        ExcelExport::make()->withColumns([
+                            Column::make('No'),
+                            Column::make('NamaPeminjam'),
+                            Column::make('StatusPeminjaman')->default(function ($record) {
+                                $status = $record->Status;
+
+                                if ($status == 1) {
+                                    return 'Sedang Dipinjam';
+                                } elseif ($status == 0) {
+                                    return 'Sudah Dipulangkan';
+                                }
+                            }),
+                            Column::make('Unit'),
+                            Column::make('KodeBarang'),
+                            Column::make('NamaBarang'),
+                            Column::make('Merek'),
+                            Column::make('Kategori'),
+                            Column::make('Jumlah'),
+                            Column::make('KondisiBarang'),
+                            Column::make('SumberDana'),
+                            Column::make('created_at'), 
+                        ])
+                    ])
+                    
+                        ]),
             ])
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make(),

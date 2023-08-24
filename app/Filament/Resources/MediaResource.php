@@ -8,6 +8,7 @@ use App\Models\Media;
 use Filament\Forms;
 use Filament\Infolists\Components;
 use Filament\Infolists\Infolist;
+use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\DeleteAction;
@@ -30,6 +31,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use Filament\Forms\Components\Placeholder;
 use Carbon\Carbon;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
+use pxlrbt\FilamentExcel\Columns\Column;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class MediaResource extends Resource
@@ -154,11 +158,21 @@ public static function table(Table $table): Table
 
             DeleteAction::make(),
         ])
-        ->groupedBulkActions([
-            DeleteBulkAction::make()
-                ->action(function () {
-                  
-                }),
+       ->bulkActions([
+                BulkActionGroup::make([
+                DeleteBulkAction::make(),
+                ExportBulkAction::make()->exports([
+                    ExcelExport::make()->withColumns([
+                        Column::make('No'),
+                        Column::make('Judul'),
+                        Column::make('slug'),
+                        Column::make('Konten'),
+                        Column::make('Gambar'),
+                        Column::make('created_at'), 
+                    ])
+                ])
+                
+                    ]),
         ]);
 }
 

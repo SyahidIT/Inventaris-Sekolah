@@ -27,6 +27,9 @@ use Filament\Tables\Contracts\HasTable;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Actions\Action;
 use Illuminate\Support\Facades\Cache;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
+use pxlrbt\FilamentExcel\Columns\Column;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class FormPembelianResource extends Resource
@@ -96,17 +99,6 @@ class FormPembelianResource extends Resource
                         });
                     }
                 ),
-                //Bentuk asli
-                // TextColumn::make('No')->state(
-                //     static function (HasTable $livewire, $rowLoop): string {
-                //         return (string) (
-                //             $rowLoop->iteration +
-                //             ($livewire->getTableRecordsPerPage() * (
-                //                 $livewire->getTablePage() - 1
-                //             ))
-                //         );
-                //     }
-                // ),
                 TextColumn::make('KodeBarang')->sortable()->searchable(),
                 TextColumn::make('NamaBarang')->sortable()->searchable(),
                 TextColumn::make('Merek')->sortable()->searchable(),
@@ -182,8 +174,22 @@ class FormPembelianResource extends Resource
             ])
             ->bulkActions([
                 BulkActionGroup::make([
-                DeleteBulkAction::make(),
-                ]),
+                    DeleteBulkAction::make(),
+                    ExportBulkAction::make()->exports([
+                        ExcelExport::make()->withColumns([
+                            Column::make('No'),
+                            Column::make('KodeBarang'),
+                            Column::make('NamaBarang'),
+                            Column::make('Merek'),
+                            Column::make('Kategori'),
+                            Column::make('Jumlah'),
+                            Column::make('HargaPerUnit'),
+                            Column::make('Valuasi'),
+                            Column::make('created_at'),
+                        ])
+                    ])
+                    
+                        ]),
             ])
             ->emptyStateActions([
                 CreateAction::make(),
