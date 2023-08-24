@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\PeminjamanController;
+use App\Http\Controllers\PemulanganController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +21,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('/store',[PeminjamanController::class, 'store'])->name('store');
+Route::post('/peminjaman/store', [PeminjamanController::class, 'store'])->name('peminjaman.store');
+Route::post('/pemulangan/store', [PemulanganController::class, 'store'])->name('pemulangan.store');
+Route::get('/pemulangan', function () {
+    return view('pemulangan.index');
+})->name('pemulangan.index');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -28,6 +33,10 @@ Route::get('/dashboard', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/history', [HistoryController::class, 'index'])->name('history.index');
+});
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/pemulangan', [PemulanganController::class, 'index'])->name('pemulangan.index');
 });
 
 Route::middleware('auth')->group(function () {

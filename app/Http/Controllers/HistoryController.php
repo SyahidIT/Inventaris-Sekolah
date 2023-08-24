@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\PeminjamanBarang;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+
 
 class HistoryController extends Controller
 {

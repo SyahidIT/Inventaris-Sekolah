@@ -20,7 +20,7 @@
     <body>
                         <div class="container col-lg-4 py-5">
                             {{-- Scanner --}}
-                            <a href="{{ route('pemulangan.index') }}" class="tombol-khusus" style="text-decoration: none;">Pemulangan Barang</a>
+                            <a href="{{ route('dashboard') }}" class="tombol-khusus" style="text-decoration: none;">Peminjaman Barang</a>
                             <div class="card bg-white shadow rounded-3 p-3 border-0" style="display: flex; justify-content: center; align-items: center;">
                                 {{-- Pesan --}}
                                 @if (session()->has('gagal'))
@@ -40,17 +40,12 @@
                                 <video id="preview"></video>
 
                                 {{-- Form --}}
-                                <form action="{{ route('peminjaman.store') }}" method="POST" id="form">
+                                <form action="{{ route('pemulangan.store') }}" method="POST" id="form">
                                     @csrf    
                                     <input type="hidden" name="user_id" id="user_id">
-                                    <input type="hidden" name="NamaPeminjam" id="NamaPeminjam">
                                     <input type="hidden" name="KodeBarang" id="KodeBarang">
-                                    <input type="hidden" name="NamaBarang" id="NamaBarang">
-                                    <input type="hidden" name="Merek" id="Merek">
-                                    <input type="hidden" name="Kategori" id="Kategori">
-                                    <input type="hidden" name="KondisiBarang" id="KondisiBarang">
-                                    <input type="hidden" name="SumberDana" id="SumberDana">
-                                    <input type="hidden" name="Unit" id="Unit">
+                                    <input type="hidden" name="Jumlah" id="Jumlah">
+                                    
                                 </form>
                                 
                                 {{-- Scripts --}}
@@ -72,14 +67,8 @@
 
                                     scanner.addListener('scan', function(c) {
                                         document.getElementById('user_id').value = c;
-                                        document.getElementById('NamaPeminjam').value = c;
                                         document.getElementById('KodeBarang').value = c;
-                                        document.getElementById('NamaBarang').value = c;
-                                        document.getElementById('Merek').value = c;
-                                        document.getElementById('Kategori').value = c;
-                                        document.getElementById('KondisiBarang').value = c;
-                                        document.getElementById('SumberDana').value = c;
-                                        document.getElementById('Unit').value = c;
+                                        document.getElementById('Jumlah').value = c;
                                         document.getElementById('form').submit();
                                     });
                                 </script>
