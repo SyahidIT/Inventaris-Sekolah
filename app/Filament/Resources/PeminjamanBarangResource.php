@@ -91,13 +91,9 @@ class PeminjamanBarangResource extends Resource
                 TextColumn::make('NamaBarang')->sortable()->searchable(),
                 TextColumn::make('Merek')->sortable()->searchable(),
                 TextColumn::make('Kategori')->sortable()->searchable(),
-                TextColumn::make('Gedung')->sortable()->searchable(),
-                TextColumn::make('Ruangan')->sortable()->searchable(),
-                TextColumn::make('Lantai')->sortable()->searchable(),
                 TextColumn::make('Jumlah')->sortable()->searchable(),
                 TextColumn::make('KondisiBarang')->sortable()->searchable(),
                 TextColumn::make('SumberDana')->sortable()->searchable(),
-                TextColumn::make('Valuasi')->sortable()->searchable(),
                 ToggleColumn::make('Status')
             ])
             ->filters([

@@ -219,6 +219,7 @@ class DistribusiResource extends Resource
                 TextColumn::make('Ruangan')->sortable()->searchable(),
                 TextColumn::make('Lantai')->sortable()->searchable(),
                 TextColumn::make('Jumlah')->sortable()->searchable(),
+                TextColumn::make('Stok')->sortable()->searchable(),
                 TextColumn::make('KondisiBarang')->sortable()->searchable(),
                 TextColumn::make('SumberDana')->sortable()->searchable(),
                 TextColumn::make('Valuasi') 

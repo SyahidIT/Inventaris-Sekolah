@@ -21,8 +21,8 @@ class ListPeminjamanBarangs extends ListRecords
     {
         return [
             null => ListRecords\Tab::make('Semua'),
-            'Sedang Dipinjam' => ListRecords\Tab::make()->query(fn ($query) => $query->where('StatusPeminjaman', 'Sedang Dipinjam')),
-            'Sudah Dipulangkan' => ListRecords\Tab::make()->query(fn ($query) => $query->where('StatusPeminjaman', 'Sudah Dipulangkan')),
+            'Sedang Dipinjam' => ListRecords\Tab::make()->query(fn ($query) => $query->where('Status', '1')),
+            'Sudah Dipulangkan' => ListRecords\Tab::make()->query(fn ($query) => $query->where('Status', '0')),
         ];
     }
 }

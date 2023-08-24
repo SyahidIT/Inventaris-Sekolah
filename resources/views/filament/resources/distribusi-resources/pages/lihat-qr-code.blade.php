@@ -21,7 +21,7 @@
     background-color: #45a049;
   }
 </style>
-    <img id="qr-code-image" src="data:image/png;base64, {!! base64_encode(QrCode::margin(5)->backgroundColor(255, 255, 255)->format('png')->merge('/public/Logo-SQDF.png', .2)->size(300)->generate(collect($record)->except(['id', 'Jumlah','Stok','created_at','updated_at']))) !!}">
+<img id="qr-code-image" src="data:image/png;base64, {!! base64_encode(QrCode::margin(2)->backgroundColor(255, 255, 255)->format('png')->merge('/public/Logo-SQDF.png', .2)->size(300)->generate($record->KodeBarang)) !!}">
 
     <a id="download-button" href="#" download="qrcode.png"><b>Download QR Code</b></a>
 
