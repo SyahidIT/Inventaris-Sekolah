@@ -27,6 +27,9 @@ use Filament\Tables\Actions\Action;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
+//custom action
+//use Illuminate\Http\Request;
+
 class GudangResource extends Resource
 {
     protected static ?string $model = Gudang::class;
@@ -228,5 +231,10 @@ class GudangResource extends Resource
             'index' => Pages\ListGudangs::route('/'),
             'create' => Pages\CreateGudang::route('/create'),
         ];
-    }    
+    }
+    
+    //custom action
+    // function (Request $request, array $arguments) {
+    //     // ...
+    // }
 }
