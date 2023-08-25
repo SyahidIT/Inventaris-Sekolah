@@ -163,7 +163,13 @@ class FormPembelianResource extends Resource
             ->actions([
                 ActionGroup::make([
                 ViewAction::make(),
-                DeleteAction::make(),
+                DeleteAction::make()
+                // ->before(function () {
+                //     //
+                // })
+                // ->after(function () {
+                //     // ...
+                // })
                 ]),
             ])
             ->bulkActions([
@@ -196,5 +202,7 @@ class FormPembelianResource extends Resource
             'index' => Pages\ListFormPembelians::route('/'),
             'create' => Pages\CreateFormPembelian::route('/create'),
         ];
-    }    
+    }
+    
 }
+

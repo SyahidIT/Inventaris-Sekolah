@@ -5,7 +5,7 @@ use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\PemulanganController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Response;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -45,4 +45,21 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/download-template', function () {
+    $filePath = public_path('/template/TemplateFormPembelian.csv');
+    $headers = [
+        'Content-Type' => 'text/csv',
+    ];
+
+    return response()->file($filePath, $headers);
+});
+
+Route::get('/download-template-ruangan', function () {
+    $filePath = public_path('/template/TemplateRuangan.csv');
+    $headers = [
+        'Content-Type' => 'text/csv',
+    ];
+
+    return response()->file($filePath, $headers);
+});
 require __DIR__.'/auth.php';

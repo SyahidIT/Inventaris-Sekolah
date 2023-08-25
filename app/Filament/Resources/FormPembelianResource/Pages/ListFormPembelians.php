@@ -3,9 +3,12 @@
 namespace App\Filament\Resources\FormPembelianResource\Pages;
 
 use App\Filament\Resources\FormPembelianResource;
+use App\Imports\ImportFormPembelians;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ListFormPembelians extends ListRecords
 {
@@ -16,6 +19,20 @@ class ListFormPembelians extends ListRecords
         return [
             Actions\CreateAction::make(),
         ];
+    }
+
+    public function getHeader(): ?View
+    {
+        $data =  Actions\CreateAction::make();
+        return view('filament.custom.upload-file', compact('data'));
+    }
+
+    public $file = '';
+
+    public function save(){
+        if($this->file != ''){
+            Excel::import(new ImportFormPembelians, $this->file);
+        }
     }
 
     public function getTabs(): array
@@ -29,4 +46,6 @@ class ListFormPembelians extends ListRecords
             'Lainnya' => ListRecords\Tab::make()->query(fn ($query) => $query->where('Kategori', 'Lainnya')),
         ];
     }
+
+    
 }

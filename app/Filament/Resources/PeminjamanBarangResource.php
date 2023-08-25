@@ -264,7 +264,8 @@ class PeminjamanBarangResource extends Resource
                     ->label('Filter'),
             )
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 BulkActionGroup::make([
@@ -273,15 +274,7 @@ class PeminjamanBarangResource extends Resource
                         ExcelExport::make()->withColumns([
                             Column::make('No'),
                             Column::make('NamaPeminjam'),
-                            Column::make('StatusPeminjaman')->formatStateUsing(function ($record) {
-                                $status = $record->Status;
-
-                                if ($status == 1) {
-                                    return 'Sedang Dipinjam';
-                                } elseif ($status == 0) {
-                                    return 'Sudah Dipulangkan';
-                                }
-                            }),
+                            Column::make('StatusPeminjaman'),
                             Column::make('Unit'),
                             Column::make('KodeBarang'),
                             Column::make('NamaBarang'),
@@ -290,6 +283,7 @@ class PeminjamanBarangResource extends Resource
                             Column::make('Jumlah'),
                             Column::make('KondisiBarang'),
                             Column::make('SumberDana'),
+                            Column::make('Status'),
                             Column::make('created_at'), 
                         ])
                     ])

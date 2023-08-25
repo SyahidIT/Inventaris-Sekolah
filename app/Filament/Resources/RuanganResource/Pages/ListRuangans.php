@@ -3,9 +3,12 @@
 namespace App\Filament\Resources\RuanganResource\Pages;
 
 use App\Filament\Resources\RuanganResource;
+use App\Imports\ImportRuangans;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ListRuangans extends ListRecords
 {
@@ -18,6 +21,19 @@ class ListRuangans extends ListRecords
         ];
     }
 
+    public function getHeader(): ?View
+    {
+        $data =  Actions\CreateAction::make();
+        return view('filament.custom.upload-file-ruangan', compact('data'));
+    }
+
+    public $file = '';
+
+    public function save(){
+        if($this->file != ''){
+            Excel::import(new ImportRuangans, $this->file);
+        }
+    }
     public function getTabs(): array
     {
         return [
