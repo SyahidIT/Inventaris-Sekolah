@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PeminjamanBarangResource\Pages;
 use App\Filament\Resources\PeminjamanBarangResource\RelationManagers;
 use App\Models\Distribusi;
+use App\Models\Gudang;
 use App\Models\PeminjamanBarang;
 use App\Models\Ruangan;
 use Carbon\Carbon;
@@ -17,7 +18,9 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
@@ -264,12 +267,15 @@ class PeminjamanBarangResource extends Resource
                     ->label('Filter'),
             )
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                ViewAction::make(),
+                DeleteAction::make()->visible(function ($record) {
+                    $kodeBarang = $record->getModel()->KodeBarang;
+                    $isInGudang = Gudang::where('KodeBarang', $kodeBarang)->exists();
+                    return !$isInGudang;
+                }),
             ])
             ->bulkActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
                     ExportBulkAction::make()->exports([
                         ExcelExport::make()->withColumns([
                             Column::make('No'),

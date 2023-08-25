@@ -122,7 +122,8 @@ class FormPembelianResource extends Resource
 
                 TextColumn::make('created_at')
                     ->dateTime()
-                    ->label('Tanggal Input Data'),
+                    ->label('Tanggal Input Data')
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 Filter::make('created_at')
@@ -161,20 +162,15 @@ class FormPembelianResource extends Resource
                     ->label('Filter'),
             )
             ->actions([
-                ActionGroup::make([
                 ViewAction::make(),
-                DeleteAction::make()
-                // ->before(function () {
-                //     //
-                // })
-                // ->after(function () {
-                //     // ...
-                // })
-                ]),
+                DeleteAction::make()->visible(function ($record) {
+                    $kodeBarang = $record->getModel()->KodeBarang;
+                    $isInGudang = Gudang::where('KodeBarang', $kodeBarang)->exists();
+                    return !$isInGudang;
+                }),
             ])
             ->bulkActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
                     ExportBulkAction::make()->exports([
                         ExcelExport::make()->withColumns([
                             Column::make('No'),
@@ -186,11 +182,11 @@ class FormPembelianResource extends Resource
                             Column::make('HargaPerUnit'),
                             Column::make('Valuasi'),
                             Column::make('created_at'),
-                        ])
-                    ])
-                    
                         ]),
+                    ]),
+                ]),
             ])
+            
             ->emptyStateActions([
                 CreateAction::make(),
             ]);

@@ -295,18 +295,19 @@ class DistribusiResource extends Resource
                     ->label('Filter'),
             )
             ->actions([
-                ActionGroup::make([
                     ViewAction::make(),
-                    DeleteAction::make(),
+                    DeleteAction::make()->visible(function ($record) {
+                        $kodeBarang = $record->getModel()->KodeBarang;
+                        $isInGudang = Gudang::where('KodeBarang', $kodeBarang)->exists();
+                        return !$isInGudang;
+                    }),
                     Action::make('Lihat Qr Code')
                     ->icon('heroicon-o-qr-code')
                     ->url(fn (Distribusi $record) => static::getUrl('qr-code', ['record' => $record]))
                     ->openUrlInNewTab()
                 ])
-            ])
             ->bulkActions([
                 BulkActionGroup::make([
-                DeleteBulkAction::make(),
                 ExportBulkAction::make()->exports([
                     ExcelExport::make()->withColumns([
                         Column::make('No'),
