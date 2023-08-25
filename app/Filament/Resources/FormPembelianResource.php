@@ -120,12 +120,6 @@ class FormPembelianResource extends Resource
                         });
                     }),
 
-                //Bentuk aslinya
-                // TextColumn::make('Valuasi')->sortable()->searchable()
-                // ->default(function ($record) {
-                //     $valuasi = $record->Jumlah * $record->HargaPerUnit;
-                //     return 'Rp.' . number_format($valuasi, 0, ',', '.');
-                // }),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->label('Tanggal Input Data'),

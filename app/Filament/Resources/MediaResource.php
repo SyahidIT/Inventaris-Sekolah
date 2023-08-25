@@ -118,6 +118,9 @@ public static function table(Table $table): Table
                 ->toggleable(isToggledHiddenByDefault: false),
 
             ImageColumn::make('Gambar'),
+            TextColumn::make('created_at')
+                    ->dateTime()
+                    ->label('Tanggal Input Data'),
 
         ])
         ->filters([

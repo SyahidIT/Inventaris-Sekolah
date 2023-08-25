@@ -4,10 +4,14 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PeminjamanBarangResource\Pages;
 use App\Filament\Resources\PeminjamanBarangResource\RelationManagers;
+use App\Models\Distribusi;
 use App\Models\PeminjamanBarang;
+use App\Models\Ruangan;
 use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -22,6 +26,7 @@ use Filament\Tables\Table;
 use Filament\Tables\Contracts\HasTable;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Actions\Action;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use pxlrbt\FilamentExcel\Exports\ExcelExport;
 use pxlrbt\FilamentExcel\Columns\Column;
@@ -40,19 +45,137 @@ class PeminjamanBarangResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('NamaPeminjam'),
-                TextInput::make('KodeBarang'),
-                TextInput::make('NamaBarang'),
-                TextInput::make('Merek'),
-                TextInput::make('Kategori'),
-                TextInput::make('Unit'),
-                TextInput::make('Gedung'),
-                TextInput::make('Ruangan'),
-                TextInput::make('Lantai'),
-                TextInput::make('Jumlah'),
-                TextInput::make('KondisiBarang'),
-                TextInput::make('SumberDana'),
-                TextInput::make('Valuasi'),
+                Hidden::make('NamaPeminjam')
+                    ->default(function () {
+                        return Auth::user()->name;
+                    }),
+                Select::make('KodeBarang')
+                    ->options(Distribusi::all()->pluck('KodeBarang', 'KodeBarang')->toArray())
+                    ->unique()
+                    ->searchable()
+                    ->required()
+                    ->reactive()
+                    ->afterStateUpdated(fn(callable $set) => $set('NamaBarang', null)),
+
+                Select::make('NamaBarang')
+                    ->options(function (callable $get) {
+                        $kodeBarang = $get('KodeBarang');
+                        if (!$kodeBarang) {
+                            return [];
+                        }
+                        $namaBarang = Distribusi::all()->where('KodeBarang', $kodeBarang)->pluck('NamaBarang', 'NamaBarang')->toArray();
+                        return $namaBarang;
+                    })
+                    ->required()
+                    ->reactive()
+                    ->afterStateUpdated(fn(callable $set) => $set('Merek', null)),
+
+                Select::make('Merek')
+                    ->options(function (callable $get) {
+                        $kodeBarang = $get('KodeBarang');
+                        if (!$kodeBarang) {
+                            return [];
+                        }
+                        $kodeBarang = Distribusi::all()->where('KodeBarang', $kodeBarang)->pluck('Merek', 'Merek')->toArray();
+                        return $kodeBarang;
+                    })
+                    ->required()
+                    ->reactive()
+                    ->afterStateUpdated(fn(callable $set) => $set('Kategori', null)),
+
+                Select::make('Kategori')
+                    ->options(function (callable $get) {
+                        $kodeBarang = $get('KodeBarang');
+                        if (!$kodeBarang) {
+                            return [];
+                        }
+                        $kategoriBarang = Distribusi::all()->where('KodeBarang', $kodeBarang)->pluck('Kategori', 'Kategori')->toArray();
+                        return $kategoriBarang;
+                    })
+                    ->required()
+                    ->reactive()
+                    ->afterStateUpdated(fn(callable $set) => $set('Unit', null)),
+
+                Select::make('Unit')
+                    ->options(Ruangan::all()->pluck('Unit', 'Unit'))
+                    ->searchable()
+                    ->required()
+                    ->reactive()
+                    ->afterStateUpdated(fn(callable $set) => $set('Gedung', null)),
+
+                Select::make('Gedung')
+                    ->options(function (callable $get) {
+                        $unit = $get('Unit');
+                        if (!$unit) {
+                            return [];
+                        }
+                        $gedung = Ruangan::all()->where('Unit', $unit)->pluck('Gedung', 'Gedung')->toArray();
+                        return $gedung;
+                    })
+                    ->required()
+                    ->reactive()
+                    ->afterStateUpdated(fn(callable $set) => $set('Ruangan', null)),
+
+                Select::make('Ruangan')
+                    ->options(function (callable $get) {
+                        $unit = $get('Unit');
+                        if (!$unit) {
+                            return [];
+                        }
+                        $gedung = Ruangan::all()->where('Unit', $unit)->pluck('Ruangan', 'Ruangan')->toArray();
+                        return $gedung;
+                    })
+                    ->required()
+                    ->reactive()
+                    ->afterStateUpdated(fn(callable $set) => $set('Lantai', null)),
+
+                Select::make('Lantai')
+                    ->options(function (callable $get) {
+                        $unit = $get('Unit');
+                        if (!$unit) {
+                            return [];
+                        }
+                        $gedung = Ruangan::all()->where('Unit', $unit)->pluck('Lantai', 'Lantai')->toArray();
+                        return $gedung;
+                    })
+                    ->required()
+                    ->reactive(),
+
+                TextInput::make('Jumlah')
+                    ->numeric()
+                    ->required()
+                    ->placeholder(function (callable $get) {
+                        $kodeBarang = $get('KodeBarang');
+                        if (!$kodeBarang) {
+                            return 'Tersedia:';
+                        }
+                        $sum = Distribusi::where('KodeBarang', $kodeBarang)->sum('Stok');
+                        return 'Tersedia: ' . $sum;
+                    }),
+
+                Select::make('KondisiBarang')
+                    ->options(function (callable $get) {
+                        $kodeBarang = $get('KodeBarang');
+                        if (!$kodeBarang) {
+                            return [];
+                        }
+                        $kondisiBarang = Distribusi::all()->where('KodeBarang', $kodeBarang)->pluck('KondisiBarang', 'KondisiBarang')->toArray();
+                        return $kondisiBarang;
+                    })
+                    ->required()
+                    ->reactive(),
+
+                Select::make('SumberDana')
+                    ->options(function (callable $get) {
+                        $kodeBarang = $get('KodeBarang');
+                        if (!$kodeBarang) {
+                            return [];
+                        }
+                        $kondisiBarang = Distribusi::all()->where('KodeBarang', $kodeBarang)->pluck('SumberDana', 'SumberDana')->toArray();
+                        return $kondisiBarang;
+                    })
+                    ->required()
+                    ->reactive(),
             ]);
     }
 
@@ -99,7 +222,10 @@ class PeminjamanBarangResource extends Resource
                 TextColumn::make('Jumlah')->sortable()->searchable(),
                 TextColumn::make('KondisiBarang')->sortable()->searchable(),
                 TextColumn::make('SumberDana')->sortable()->searchable(),
-                ToggleColumn::make('Status')
+                ToggleColumn::make('Status'),
+                TextColumn::make('created_at')
+                    ->dateTime()
+                    ->label('Tanggal Input Data'),
             ])
             ->filters([
                 Filter::make('created_at')
@@ -147,7 +273,7 @@ class PeminjamanBarangResource extends Resource
                         ExcelExport::make()->withColumns([
                             Column::make('No'),
                             Column::make('NamaPeminjam'),
-                            Column::make('StatusPeminjaman')->default(function ($record) {
+                            Column::make('StatusPeminjaman')->formatStateUsing(function ($record) {
                                 $status = $record->Status;
 
                                 if ($status == 1) {

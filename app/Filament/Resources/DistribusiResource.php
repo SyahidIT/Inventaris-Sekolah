@@ -183,6 +183,24 @@ class DistribusiResource extends Resource
                     ])
                     ->searchable()
                     ->required(),
+
+                Select::make('Valuasi')
+                ->options(function (callable $get) {
+                    $kodeBarang = $get('KodeBarang');
+                    if (!$kodeBarang) {
+                        return [];
+                    }
+                    $formPembelian = FormPembelian::where('KodeBarang', $kodeBarang)->first();
+                    if (!$formPembelian) {
+                        return [];
+                    }
+                    $valuasiBarang = $formPembelian->Jumlah * $formPembelian->HargaPerUnit;
+                    return [$valuasiBarang => $valuasiBarang];
+                })
+                ->required()
+                ->reactive()
+                ->prefix('Rp.'),
+
             ]);
     }
 
@@ -229,6 +247,9 @@ class DistribusiResource extends Resource
                         thousandsSeparator: '.',
                         )
                     ->sortable()->searchable()->prefix('Rp.'),
+                TextColumn::make('created_at')
+                    ->dateTime()
+                    ->label('Tanggal Input Data'),
                     ])
             
                 ->filters([

@@ -77,6 +77,9 @@ class RuanganResource extends Resource
                 TextColumn::make('Gedung')->sortable()->searchable(),
                 TextColumn::make('Ruangan')->sortable()->searchable(),
                 TextColumn::make('Lantai')->sortable()->searchable(),
+                TextColumn::make('created_at')
+                    ->dateTime()
+                    ->label('Tanggal Input Data'),
                 
             ])
             ->filters([
