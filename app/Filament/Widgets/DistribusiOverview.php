@@ -4,6 +4,7 @@ namespace App\Filament\Widgets;
 use App\Models\Distribusi;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
+use Illuminate\Support\Facades\Cache;
 
 class DistribusiOverview extends BaseWidget
 {
@@ -11,10 +12,21 @@ class DistribusiOverview extends BaseWidget
 
     protected function getStats(): array
     {
-        $totalValuasiSD = Distribusi::all()->where('Unit', 'SD')->sum('Valuasi') / 1000;
-        $totalValuasiSMPFD = Distribusi::all()->where('Unit', 'SMP FULLDAY')->sum('Valuasi') / 1000;
-        $totalValuasiSMPBD = Distribusi::all()->where('Unit', 'SMP BOARDING')->sum('Valuasi') / 1000;
-        $totalValuasiSMA = Distribusi::all()->where('Unit', 'SMA')->sum('Valuasi') / 1000;
+        $totalValuasiSD = Cache::remember('total_valuasi_sd', now()->addMinutes(60*60*24), function () {
+            return Distribusi::where('Unit', 'SD')->sum('Valuasi') / 1000;
+        });
+
+        $totalValuasiSMPFD = Cache::remember('total_valuasi_smpfd', now()->addMinutes(60*60*24), function () {
+            return Distribusi::where('Unit', 'SMP FULLDAY')->sum('Valuasi') / 1000;
+        });
+
+        $totalValuasiSMPBD = Cache::remember('total_valuasi_smpbd', now()->addMinutes(60*60*24), function () {
+            return Distribusi::where('Unit', 'SMP BOARDING')->sum('Valuasi') / 1000;
+        });
+
+        $totalValuasiSMA = Cache::remember('total_valuasi_sma', now()->addMinutes(60*60*24), function () {
+            return Distribusi::where('Unit', 'SMA')->sum('Valuasi') / 1000;
+        });
 
     
     return [
