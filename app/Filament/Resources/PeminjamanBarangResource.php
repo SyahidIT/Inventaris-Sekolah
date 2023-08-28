@@ -42,7 +42,12 @@ class PeminjamanBarangResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-inbox';
     protected static ?string $navigationGroup = 'Distribusi Barang';
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 4;
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['KodeBarang', 'Kategori', 'NamaBarang', 'Merek'];
+    }
 
     public static function form(Form $form): Form
     {
@@ -103,45 +108,6 @@ class PeminjamanBarangResource extends Resource
                     ->options(Ruangan::all()->pluck('Unit', 'Unit'))
                     ->searchable()
                     ->required()
-                    ->reactive()
-                    ->afterStateUpdated(fn(callable $set) => $set('Gedung', null)),
-
-                Select::make('Gedung')
-                    ->options(function (callable $get) {
-                        $unit = $get('Unit');
-                        if (!$unit) {
-                            return [];
-                        }
-                        $gedung = Ruangan::all()->where('Unit', $unit)->pluck('Gedung', 'Gedung')->toArray();
-                        return $gedung;
-                    })
-                    ->required()
-                    ->reactive()
-                    ->afterStateUpdated(fn(callable $set) => $set('Ruangan', null)),
-
-                Select::make('Ruangan')
-                    ->options(function (callable $get) {
-                        $unit = $get('Unit');
-                        if (!$unit) {
-                            return [];
-                        }
-                        $gedung = Ruangan::all()->where('Unit', $unit)->pluck('Ruangan', 'Ruangan')->toArray();
-                        return $gedung;
-                    })
-                    ->required()
-                    ->reactive()
-                    ->afterStateUpdated(fn(callable $set) => $set('Lantai', null)),
-
-                Select::make('Lantai')
-                    ->options(function (callable $get) {
-                        $unit = $get('Unit');
-                        if (!$unit) {
-                            return [];
-                        }
-                        $gedung = Ruangan::all()->where('Unit', $unit)->pluck('Lantai', 'Lantai')->toArray();
-                        return $gedung;
-                    })
-                    ->required()
                     ->reactive(),
 
                 TextInput::make('Jumlah')
@@ -201,16 +167,7 @@ class PeminjamanBarangResource extends Resource
                     }
                 ),
                 TextColumn::make('NamaPeminjam')->sortable()->searchable(),
-                TextColumn::make('StatusPeminjaman')
-                ->default(function ($record) {
-                    $status = $record->Status;
-
-                    if ($status == 1) {
-                        return 'Sedang Dipinjam';
-                    } elseif ($status == 0) {
-                        return 'Sudah Dipulangkan';
-                    }
-                }),
+                TextColumn::make('StatusPeminjaman'),
                 BadgeColumn::make('Unit')
                 ->colors([
                     'gray' => fn ($state) => in_array($state, ['Unit', 'SD']),
@@ -270,8 +227,8 @@ class PeminjamanBarangResource extends Resource
                 ViewAction::make(),
                 DeleteAction::make()->visible(function ($record) {
                     $kodeBarang = $record->getModel()->KodeBarang;
-                    $isInGudang = Gudang::where('KodeBarang', $kodeBarang)->exists();
-                    return !$isInGudang;
+                    $isInDistribusi = Distribusi::where('KodeBarang', $kodeBarang)->exists();
+                    return !$isInDistribusi;
                 }),
             ])
             ->bulkActions([

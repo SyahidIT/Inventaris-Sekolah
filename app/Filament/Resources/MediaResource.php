@@ -111,11 +111,11 @@ public static function table(Table $table): Table
                 ->sortable()
                 ->toggleable(isToggledHiddenByDefault: false),
 
-            TextColumn::make('Konten')
-                ->label('Deskripsi Barang')
-                ->searchable()
-                ->sortable()
-                ->toggleable(isToggledHiddenByDefault: false),
+            // TextColumn::make('Konten')
+            //     ->label('Deskripsi Barang')
+            //     ->searchable()
+            //     ->sortable()
+            //     ->toggleable(isToggledHiddenByDefault: false),
 
             ImageColumn::make('Gambar'),
             TextColumn::make('created_at')
@@ -198,7 +198,7 @@ public static function infolist(Infolist $infolist): Infolist
                             ->grow(false),
                     ])->from('lg'),
                 ]),
-                Components\Section::make('Konten')
+                Components\Section::make('Deskripsi Media')
                 ->schema([
                     Components\TextEntry::make('Konten')
                         ->prose()

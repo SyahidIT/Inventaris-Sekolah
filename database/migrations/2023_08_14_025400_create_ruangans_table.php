@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('ruangans', function (Blueprint $table) {
             $table->id();
-            $table->string('Unit');
+            $table->string('Unit')->unique()->index();
             $table->string('Gedung');
             $table->string('Ruangan');
             $table->string('Lantai');

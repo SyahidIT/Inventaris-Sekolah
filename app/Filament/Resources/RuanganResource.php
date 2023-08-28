@@ -37,6 +37,11 @@ class RuanganResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-map';
     protected static ?string $navigationGroup = 'Master Data';
 
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['Unit', 'Gedung', 'Ruangan', 'Lantai'];
+    }
+
     public static function form(Form $form): Form
     {
         return $form

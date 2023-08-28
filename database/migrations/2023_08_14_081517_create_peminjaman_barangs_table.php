@@ -13,21 +13,23 @@ return new class extends Migration
     {
         Schema::create('peminjaman_barangs', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id');
             $table->string('NamaPeminjam');
-            $table->string('Status');
-            $table->string('KodeBarang');
+            $table->string('StatusPeminjaman');
+            $table->string('KodeBarang')->index();
             $table->string('NamaBarang');
             $table->string('Merek');
             $table->string('Kategori');
             $table->string('KondisiBarang');
             $table->string('SumberDana');
             $table->integer('Jumlah');
-            $table->string('Unit');
-            $table->string('Gedung');
-            $table->string('Ruangan');
-            $table->string('Lantai');
-            $table->integer('Valuasi');
+            $table->string('Unit')->index();
+            $table->integer('Status')->default(1);
             $table->timestamps();
+        });
+
+        Schema::table('peminjaman_barangs', function (Blueprint $table) {
+            $table->foreign('KodeBarang')->references('KodeBarang')->on('distribusis')->onDelete('RESTRICT')->onUpdate('NO ACTION');
         });
     }
 

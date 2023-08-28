@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('gudangs', function (Blueprint $table) {
             $table->id();
-            $table->string('KodeBarang');
+            $table->string('KodeBarang')->unique()->index();
             $table->string('NamaBarang');
             $table->string('Merek');
             $table->string('Kategori');
@@ -21,6 +21,10 @@ return new class extends Migration
             $table->integer('Stok');
             $table->integer('Valuasi');
             $table->timestamps();
+        });
+
+        Schema::table('gudangs', function (Blueprint $table) {
+            $table->foreign('KodeBarang')->references('KodeBarang')->on('form_pembelians')->onDelete('RESTRICT')->onUpdate('NO ACTION');
         });
     }
 

@@ -39,6 +39,11 @@ class FormPembelianResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
     protected static ?string $navigationGroup = 'Master Data';
 
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['KodeBarang', 'Kategori', 'NamaBarang', 'Merek'];
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -111,14 +116,14 @@ class FormPembelianResource extends Resource
                     thousandsSeparator: '.',
                 ),
                 TextColumn::make('Valuasi')
+                    ->prefix('Rp.')
                     ->sortable()
                     ->searchable()
-                    ->default(function ($record) {
-                        return Cache::remember('valuasi_formpembelian' . $record->id, now()->addMinutes(60*60*24), function () use ($record) {
-                            $valuasi = $record->Jumlah * $record->HargaPerUnit;
-                            return 'Rp.' . number_format($valuasi, 0, ',', '.');
-                        });
-                    }),
+                    ->numeric(
+                        decimalPlaces: 0,
+                        decimalSeparator: '.',
+                        thousandsSeparator: '.'
+                    ),
 
                 TextColumn::make('created_at')
                     ->dateTime()

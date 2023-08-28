@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('form_pembelians', function (Blueprint $table) {
             $table->id();
-            $table->string('KodeBarang');
+            $table->string('KodeBarang')->index();
             $table->string('NamaBarang');
             $table->string('Merek');
             $table->string('Kategori');
             $table->integer('Jumlah');
+            $table->integer('HargaPerUnit')->index();
             $table->integer('Valuasi');
             $table->timestamps();
         });

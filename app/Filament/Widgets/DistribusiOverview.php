@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Filament\Widgets;
+use App\Models\Distribusi;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 
@@ -10,26 +11,32 @@ class DistribusiOverview extends BaseWidget
 
     protected function getStats(): array
     {
-        return [
-            Stat::make('Unit SD', '$192.1k')
-                ->description('32k increase')
+        $totalValuasiSD = Distribusi::all()->where('Unit', 'SD')->sum('Valuasi') / 1000;
+        $totalValuasiSMPFD = Distribusi::all()->where('Unit', 'SMP FULLDAY')->sum('Valuasi') / 1000;
+        $totalValuasiSMPBD = Distribusi::all()->where('Unit', 'SMP BOARDING')->sum('Valuasi') / 1000;
+        $totalValuasiSMA = Distribusi::all()->where('Unit', 'SMA')->sum('Valuasi') / 1000;
+
+    
+    return [
+            Stat::make('Unit SD', 'Rp. ' . $totalValuasiSD . 'K')
+                ->description('sangat baik')
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->chart([7, 2, 10, 3, 15, 4, 17])
                 ->color('success'),
-            Stat::make('Unit SMP Fullday', '1340')
-                ->description('3% decrease')
-                ->descriptionIcon('heroicon-m-arrow-trending-down')
-                ->chart([17, 16, 14, 15, 14, 13, 12])
-                ->color('danger'),
-            Stat::make('Unit SMP Boarding', '3543')
-                ->description('7% increase')
+            Stat::make('Unit SMP Fullday', 'Rp. ' . $totalValuasiSMPFD . 'K')
+                ->description('sangat baik')
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
-                ->chart([15, 4, 10, 2, 12, 4, 12])
+                ->chart([7, 2, 10, 3, 15, 4, 17])
                 ->color('success'),
-            Stat::make('Unit SMP SMA', '3543')
-                ->description('7% increase')
+            Stat::make('Unit SMP Boarding', 'Rp. ' . $totalValuasiSMPBD . 'K')
+                ->description('sangat baik')
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
-                ->chart([15, 4, 10, 2, 12, 4, 12])
+                ->chart([7, 2, 10, 3, 15, 4, 17])
+                ->color('success'),
+            Stat::make('Unit SMP SMA', 'Rp. ' . $totalValuasiSMA . 'K')
+                ->description('sangat baik')
+                ->descriptionIcon('heroicon-m-arrow-trending-up')
+                ->chart([7, 2, 10, 3, 15, 4, 17])
                 ->color('success'),
         ];
     }

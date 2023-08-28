@@ -45,15 +45,7 @@
                         <td>{{ $peminjamanBarang->KondisiBarang }}</td>
                         <td>{{ $peminjamanBarang->Jumlah }}</td>
                         <td>{{ $peminjamanBarang->Unit }}</td>
-                        <td style="font-weight: bold; color: {{ $peminjamanBarang->Status == 1 ? 'red' : 'green' }}">
-                            @if ($peminjamanBarang->Status == 1)
-                                Sedang Dipinjam
-                            @elseif ($peminjamanBarang->Status == 0)
-                                Sudah Dipulangkan
-                            @endif
-                        </td>
-
-
+                        <td style="font-weight: bold; color:{{ $peminjamanBarang->StatusPeminjaman == 'Sedang Dipinjam' ? 'red' : 'green' }}"></td>
                         <td>{{ \Carbon\Carbon::parse($peminjamanBarang->created_at)->format('d F Y') }}</td>
                         
                     </tr>

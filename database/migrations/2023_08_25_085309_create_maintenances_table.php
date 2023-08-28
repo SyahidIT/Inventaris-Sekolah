@@ -22,7 +22,7 @@ return new class extends Migration
             $table->timestamps();
 
             // Definisi foreign key setelah pembuatan kolom
-            $table->foreign('KodeBarang')->references('KodeBarang')->on('form_pembelians')->onDelete('RESTRICT')->onUpdate('CASCADE');;
+            $table->foreign('KodeBarang')->references('KodeBarang')->on('distribusis')->onDelete('RESTRICT')->onUpdate('NO ACTION');;
         });
     }
 

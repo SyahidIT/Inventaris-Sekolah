@@ -28,6 +28,13 @@ class MaintenanceResource extends Resource
     protected static ?string $model = Maintenance::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
+    protected static ?string $navigationGroup = 'Distribusi Barang';
+    protected static ?int $navigationSort = 3;
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['KodeBarang', 'NamaBarang'];
+    }
 
     public static function form(Form $form): Form
     {
@@ -170,6 +177,8 @@ class MaintenanceResource extends Resource
         ])
         ->actions([
             Tables\Actions\ViewAction::make(),
+            Tables\Actions\EditAction::make(),
+            Tables\Actions\DeleteAction::make(),
         ])
         ->bulkActions([
             Tables\Actions\BulkActionGroup::make([

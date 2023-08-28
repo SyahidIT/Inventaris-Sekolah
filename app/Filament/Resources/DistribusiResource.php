@@ -44,6 +44,11 @@ class DistribusiResource extends Resource
     protected static ?string $navigationGroup = 'Distribusi Barang';
     protected static ?int $navigationSort = 2;
 
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['KodeBarang', 'Kategori', 'NamaBarang', 'Merek'];
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -296,11 +301,12 @@ class DistribusiResource extends Resource
             )
             ->actions([
                     ViewAction::make(),
-                    DeleteAction::make()->visible(function ($record) {
-                        $kodeBarang = $record->getModel()->KodeBarang;
-                        $isInGudang = Gudang::where('KodeBarang', $kodeBarang)->exists();
-                        return !$isInGudang;
-                    }),
+                    DeleteAction::make(),
+                    // DeleteAction::make()->visible(function ($record) {
+                    //     $kodeBarang = $record->getModel()->KodeBarang;
+                    //     $isInGudang = Gudang::where('KodeBarang', $kodeBarang)->exists();
+                    //     return !$isInGudang;
+                    // }),
                     Action::make('Lihat Qr Code')
                     ->icon('heroicon-o-qr-code')
                     ->url(fn (Distribusi $record) => static::getUrl('qr-code', ['record' => $record]))

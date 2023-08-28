@@ -13,19 +13,24 @@ return new class extends Migration
     {
         Schema::create('distribusis', function (Blueprint $table) {
             $table->id();
-            $table->string('KodeBarang');
+            $table->string('KodeBarang')->unique()->index();
             $table->string('NamaBarang');
             $table->string('Merek');
             $table->string('Kategori');
             $table->string('KondisiBarang');
             $table->string('SumberDana');
             $table->integer('Jumlah');
+            $table->integer('Stok');
             $table->string('Unit');
             $table->string('Gedung');
             $table->string('Ruangan');
             $table->string('Lantai');
             $table->integer('Valuasi');
             $table->timestamps();
+        });
+
+        Schema::table('distribusis', function (Blueprint $table) {
+            $table->foreign('KodeBarang')->references('KodeBarang')->on('gudangs')->onDelete('RESTRICT')->onUpdate('NO ACTION');
         });
     }
 
