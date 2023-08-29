@@ -225,11 +225,12 @@ class PeminjamanBarangResource extends Resource
             )
             ->actions([
                 ViewAction::make(),
-                DeleteAction::make()->visible(function ($record) {
-                    $kodeBarang = $record->getModel()->KodeBarang;
-                    $isInDistribusi = Distribusi::where('KodeBarang', $kodeBarang)->exists();
-                    return !$isInDistribusi;
-                }),
+                DeleteAction::make(),
+                // DeleteAction::make()->visible(function ($record) {
+                //     $kodeBarang = $record->getModel()->KodeBarang;
+                //     $isInDistribusi = Distribusi::where('KodeBarang', $kodeBarang)->exists();
+                //     return !$isInDistribusi;
+                // }),
             ])
             ->bulkActions([
                 BulkActionGroup::make([

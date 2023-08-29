@@ -45,7 +45,10 @@
                         <td>{{ $peminjamanBarang->KondisiBarang }}</td>
                         <td>{{ $peminjamanBarang->Jumlah }}</td>
                         <td>{{ $peminjamanBarang->Unit }}</td>
-                        <td style="font-weight: bold; color:{{ $peminjamanBarang->StatusPeminjaman == 'Sedang Dipinjam' ? 'red' : 'green' }}"></td>
+                        <td style="font-weight: bold; color:{{ $peminjamanBarang->StatusPeminjaman == 'Sedang Dipinjam' ? 'red' : 'green' }}">
+                            {{ $peminjamanBarang->StatusPeminjaman }}
+                        </td>
+
                         <td>{{ \Carbon\Carbon::parse($peminjamanBarang->created_at)->format('d F Y') }}</td>
                         
                     </tr>

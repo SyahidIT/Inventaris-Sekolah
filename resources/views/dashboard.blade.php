@@ -22,6 +22,7 @@
                             {{-- Scanner --}}
                             <a href="{{ route('pemulangan.index') }}" class="tombol-khusus" style="text-decoration: none;">Pemulangan Barang</a>
                             <div class="card bg-white shadow rounded-3 p-3 border-0" style="display: flex; justify-content: center; align-items: center;">
+
                                 {{-- Pesan --}}
                                 @if (session()->has('gagal'))
                                     <div class="alert alert-warning" role="alert">
@@ -88,6 +89,8 @@
                             </div>
                             
                         </div>
+                        <a href="{{ route('history.index') }}" class="tombol-khusus" style="text-decoration: none;">History Peminjaman</a>
+                            <div class="card bg-white shadow rounded-3 p-3 border-0" style="display: flex; justify-content: center; align-items: center;"> 
                     </body>
                     <div class="container col-lg-4 py-2">
                     <p><b>Catatan:</b></p>

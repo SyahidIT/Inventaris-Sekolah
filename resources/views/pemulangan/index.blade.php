@@ -77,12 +77,14 @@
                             </div>
                             
                         </div>
+                        <a href="{{ route('history.index') }}" class="tombol-khusus" style="text-decoration: none;">History Peminjaman</a>
+                            <div class="card bg-white shadow rounded-3 p-3 border-0" style="display: flex; justify-content: center; align-items: center;">
                     </body>
                     <div class="container col-lg-4 py-2">
                     <p><b>Catatan:</b></p>
-                    <p><b>1.</b>Halaman ini hanya untuk peminjaman barang saja.</p>
-                    <p><b>2.</b>Untuk pemulangan barang mohon klik tombol "Pemulangan barang" di atas.</p>
-                    <p><b>3.</b>Jika "Stok Habis", hubungi Abi Ule selaku koordinator sarpras</p>
+                    <p><b>1.</b>Halaman ini hanya untuk pemulangan barang saja.</p>
+                    <p><b>2.</b>Untuk peminjaman barang mohon klik tombol "Peminjaman barang" di atas.</p>
+                    <p><b>3.</b>Jika ada pertanyaan, hubungi Abi Ule selaku koordinator sarpras</p>
                 </div>
             </div>
         </div>
