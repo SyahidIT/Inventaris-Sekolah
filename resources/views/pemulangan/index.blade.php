@@ -87,6 +87,15 @@
                     <p><b>3.</b>Jika ada pertanyaan, hubungi Abi Ule selaku koordinator sarpras</p>
                 </div>
             </div>
+            <footer class="bg-light py-5">
+                <a href="https://github.com/SyahidIT" target="_blank">
+                    <div class="container px-4 px-lg-5">
+                      <div class="small text-center text-muted">Made with ❤️ by Syahid Abdillah</div>
+                    </div>
+                  </a>
+                  
+                  
+            </footer>
         </div>
     </div>
 </x-app-layout>

@@ -25,7 +25,7 @@ class AdminPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->sidebarCollapsibleOnDesktop()    
+            ->sidebarCollapsibleOnDesktop()
             ->default()
             ->id('admin')
             ->path('admin')
@@ -40,10 +40,14 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                
+
             ])
+            ->renderHook(
+                'panels::body.end',
+                fn() => view('customFooter')
+            )
             ->middleware([
-                
+
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
                 StartSession::class,
@@ -56,12 +60,12 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
                 FilamentClearCachePlugin::make(),
-                ])
-                
+            ])
+
             ->authMiddleware([
                 Authenticate::class,
                 CheckAdmin::class,
-                
+
             ]);
     }
 }

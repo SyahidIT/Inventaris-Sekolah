@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Inventaris - SQDF</title>
+        <title>Sistem Inventaris</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Bootstrap Icons-->
@@ -22,7 +22,7 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
             <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="#page-top">Inventaris SQDF</a>
+                <a class="navbar-brand" href="#page-top">Sistem Inventaris</a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto my-2 my-lg-0">
@@ -39,11 +39,11 @@
             <div class="container px-4 px-lg-5 h-100">
                 <div class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
                     <div class="col-lg-8 align-self-end">
-                        <h1 class="text-white font-weight-bold">Website Inventaris SQDF</h1>
+                        <h1 class="text-white font-weight-bold">SISTEM INVENTARIS SEKOLAH</h1>
                         <hr class="divider" />
                     </div>
                     <div class="col-lg-8 align-self-baseline">
-                        <p class="text-white-75 mb-5">Website pusat data barang Sekolah Quran Darul Fattah</p>
+                        <p class="text-white-75 mb-5">Sistem pusat data barang Sekolah</p>
                         <a class="btn btn-primary btn-xl" href="/admin/login">Pinjam Sekarang</a>
                     </div>
                 </div>
@@ -125,7 +125,13 @@
         </div>
         <!-- Footer-->
         <footer class="bg-light py-5">
-            <div class="container px-4 px-lg-5"><div class="small text-center text-muted">Copyright &copy; 2023 - Sekolah Quran Darul Fattah</div></div>
+            <a href="https://github.com/SyahidIT" target="_blank">
+                <div class="container px-4 px-lg-5">
+                  <div class="small text-center text-muted">Made with ❤️ by Syahid Abdillah</div>
+                </div>
+              </a>
+              
+              
         </footer>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>

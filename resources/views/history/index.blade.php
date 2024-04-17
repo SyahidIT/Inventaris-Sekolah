@@ -58,6 +58,15 @@
         <p> Catatan:</p>
         <p> Jika ada ketidak sesuaian data yang ditampilkan, mohon untuk dapat menghubungi abi Ule</p>
     </div>
+    <footer class="bg-light py-5">
+        <a href="https://github.com/SyahidIT" target="_blank">
+            <div class="container px-4 px-lg-5">
+              <div class="small text-center text-muted">Made with ❤️ by Syahid Abdillah</div>
+            </div>
+          </a>
+          
+          
+    </footer>
 </body>
 
 </x-app-layout>
