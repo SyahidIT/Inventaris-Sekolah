@@ -1,7 +1,7 @@
 <h1> SISTEM INVENTARIS: Aplikasi inventaris sekolah berbasis Laravel support QR Code untuk peminjaman dan pemulangan barang. Dibangun dengan Filament PHP </h1>
 <img src="public/Sistem inventaris.png" width="1000"/>
 
-## About Sistem Inventaris
+## Tentang Sistem Inventaris
 Ini adalah project pertamaku pada pemrograman Laravel di tahun 2023 kemarin. Saya membuat aplikasi ini sesuai dengan kebutuhan sekolah saya, berhubung aplikasi ini sudah tidak digunakan lagi di sekolah, alangkah baiknya jika project aplikasi ini saya share ke publik barangkali dapat bermanfaat untuk orang lain atau sekolah lain.
 
 ## Cara instalasi dan penggunaan
@@ -27,5 +27,12 @@ Langkah manual:
 12. Sistem pemulangan barang dengan QrCode
 13. Auto rekap peminjaman dan pemulangan barang
 14. Management User
+
+## User Admin
+User: 1871122334455
+Password: 12345678
+
+## Traktir cendol (DONASI)
+teer.id/syahid_abdillah
 
 Terimakasih sudah menggunakan aplikasi buatan saya, mudah-mudahan bermanfaat. Jika ada kendala bisa hubungi saya via email: muhammad.syahid39@gmail.com
