@@ -29,12 +29,12 @@ Langkah manual:
 14. Management User
 
 ## User Admin
-User: 1871122334455
-Password: 12345678
+User: 1871122334455 
+<br> Password: 12345678 </br> 
 
 ## Link aplikasi
-Admin: yourdomain.com/admin/login
-user: yourdomain.com/login
+Admin: yourdomain.com/admin/login <br> 
+user: yourdomain.com/login </br> 
 
 ## Traktir cendol (DONASI)
 teer.id/syahid_abdillah
