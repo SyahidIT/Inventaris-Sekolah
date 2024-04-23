@@ -5,8 +5,8 @@
 Ini adalah project pertamaku pada pemrograman Laravel di tahun 2023 kemarin. Saya membuat aplikasi ini sesuai dengan kebutuhan sekolah saya, berhubung aplikasi ini sudah tidak digunakan lagi di sekolah, alangkah baiknya jika project aplikasi ini saya share ke publik barangkali dapat bermanfaat untuk orang lain atau sekolah lain.
 
 ## Cara instalasi dan penggunaan
-Cek tutorial berikut untuk instalasi aplikasi:
-Youtube (soon)
+Tutorial instalasi aplikasi:
+Youtube : https://www.youtube.com/watch?v=2YnmlyR9-G0
 
 Langkah manual:
 1. Clone git
@@ -31,6 +31,10 @@ Langkah manual:
 ## User Admin
 User: 1871122334455
 Password: 12345678
+
+## Link aplikasi
+Admin: yourdomain.com/admin/login
+user: yourdomain.com/login
 
 ## Traktir cendol (DONASI)
 teer.id/syahid_abdillah
